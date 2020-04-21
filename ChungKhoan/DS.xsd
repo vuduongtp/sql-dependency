@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DS" targetNamespace="http://tempuri.org/DS.xsd" xmlns:mstns="http://tempuri.org/DS.xsd" xmlns="http://tempuri.org/DS.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="CHUNGKHOANConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="CHUNGKHOANConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.ChungKhoan.Properties.Settings.GlobalReference.Default.CHUNGKHOANConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="GIATRUCTUYENTableAdapter" GeneratorDataComponentClassName="GIATRUCTUYENTableAdapter" Name="GIATRUCTUYEN" UserDataComponentName="GIATRUCTUYENTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="CHUNGKHOANConnectionString (Settings)" DbObjectName="CHUNGKHOAN.dbo.GIATRUCTUYEN" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT MACP, GIAMUA2, KLMUA2, GIAMUA1, KLMUA1, GIAKHOP, KLKHOP, GIABAN1, KLBAN1, GIABAN2, KLBAN2 FROM dbo.GIATRUCTUYEN</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MACP" DataSetColumn="MACP" />
+              <Mapping SourceColumn="GIAMUA2" DataSetColumn="GIAMUA2" />
+              <Mapping SourceColumn="KLMUA2" DataSetColumn="KLMUA2" />
+              <Mapping SourceColumn="GIAMUA1" DataSetColumn="GIAMUA1" />
+              <Mapping SourceColumn="KLMUA1" DataSetColumn="KLMUA1" />
+              <Mapping SourceColumn="GIAKHOP" DataSetColumn="GIAKHOP" />
+              <Mapping SourceColumn="KLKHOP" DataSetColumn="KLKHOP" />
+              <Mapping SourceColumn="GIABAN1" DataSetColumn="GIABAN1" />
+              <Mapping SourceColumn="KLBAN1" DataSetColumn="KLBAN1" />
+              <Mapping SourceColumn="GIABAN2" DataSetColumn="GIABAN2" />
+              <Mapping SourceColumn="KLBAN2" DataSetColumn="KLBAN2" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DS" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DS" msprop:Generator_UserDSName="DS">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="GIATRUCTUYEN" msprop:Generator_TableClassName="GIATRUCTUYENDataTable" msprop:Generator_TableVarName="tableGIATRUCTUYEN" msprop:Generator_TablePropName="GIATRUCTUYEN" msprop:Generator_RowDeletingName="GIATRUCTUYENRowDeleting" msprop:Generator_RowChangingName="GIATRUCTUYENRowChanging" msprop:Generator_RowEvHandlerName="GIATRUCTUYENRowChangeEventHandler" msprop:Generator_RowDeletedName="GIATRUCTUYENRowDeleted" msprop:Generator_UserTableName="GIATRUCTUYEN" msprop:Generator_RowChangedName="GIATRUCTUYENRowChanged" msprop:Generator_RowEvArgName="GIATRUCTUYENRowChangeEvent" msprop:Generator_RowClassName="GIATRUCTUYENRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MACP" msprop:Generator_ColumnVarNameInTable="columnMACP" msprop:Generator_ColumnPropNameInRow="MACP" msprop:Generator_ColumnPropNameInTable="MACPColumn" msprop:Generator_UserColumnName="MACP">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="7" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GIAMUA2" msprop:Generator_ColumnVarNameInTable="columnGIAMUA2" msprop:Generator_ColumnPropNameInRow="GIAMUA2" msprop:Generator_ColumnPropNameInTable="GIAMUA2Column" msprop:Generator_UserColumnName="GIAMUA2" type="xs:double" minOccurs="0" />
+              <xs:element name="KLMUA2" msprop:Generator_ColumnVarNameInTable="columnKLMUA2" msprop:Generator_ColumnPropNameInRow="KLMUA2" msprop:Generator_ColumnPropNameInTable="KLMUA2Column" msprop:Generator_UserColumnName="KLMUA2" type="xs:int" minOccurs="0" />
+              <xs:element name="GIAMUA1" msprop:Generator_ColumnVarNameInTable="columnGIAMUA1" msprop:Generator_ColumnPropNameInRow="GIAMUA1" msprop:Generator_ColumnPropNameInTable="GIAMUA1Column" msprop:Generator_UserColumnName="GIAMUA1" type="xs:double" minOccurs="0" />
+              <xs:element name="KLMUA1" msprop:Generator_ColumnVarNameInTable="columnKLMUA1" msprop:Generator_ColumnPropNameInRow="KLMUA1" msprop:Generator_ColumnPropNameInTable="KLMUA1Column" msprop:Generator_UserColumnName="KLMUA1" type="xs:int" minOccurs="0" />
+              <xs:element name="GIAKHOP" msprop:Generator_ColumnVarNameInTable="columnGIAKHOP" msprop:Generator_ColumnPropNameInRow="GIAKHOP" msprop:Generator_ColumnPropNameInTable="GIAKHOPColumn" msprop:Generator_UserColumnName="GIAKHOP" type="xs:double" minOccurs="0" />
+              <xs:element name="KLKHOP" msprop:Generator_ColumnVarNameInTable="columnKLKHOP" msprop:Generator_ColumnPropNameInRow="KLKHOP" msprop:Generator_ColumnPropNameInTable="KLKHOPColumn" msprop:Generator_UserColumnName="KLKHOP" type="xs:int" minOccurs="0" />
+              <xs:element name="GIABAN1" msprop:Generator_ColumnVarNameInTable="columnGIABAN1" msprop:Generator_ColumnPropNameInRow="GIABAN1" msprop:Generator_ColumnPropNameInTable="GIABAN1Column" msprop:Generator_UserColumnName="GIABAN1" type="xs:double" minOccurs="0" />
+              <xs:element name="KLBAN1" msprop:Generator_ColumnVarNameInTable="columnKLBAN1" msprop:Generator_ColumnPropNameInRow="KLBAN1" msprop:Generator_ColumnPropNameInTable="KLBAN1Column" msprop:Generator_UserColumnName="KLBAN1" type="xs:int" minOccurs="0" />
+              <xs:element name="GIABAN2" msprop:Generator_ColumnVarNameInTable="columnGIABAN2" msprop:Generator_ColumnPropNameInRow="GIABAN2" msprop:Generator_ColumnPropNameInTable="GIABAN2Column" msprop:Generator_UserColumnName="GIABAN2" type="xs:double" minOccurs="0" />
+              <xs:element name="KLBAN2" msprop:Generator_ColumnVarNameInTable="columnKLBAN2" msprop:Generator_ColumnPropNameInRow="KLBAN2" msprop:Generator_ColumnPropNameInTable="KLBAN2Column" msprop:Generator_UserColumnName="KLBAN2" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:GIATRUCTUYEN" />
+      <xs:field xpath="mstns:MACP" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
