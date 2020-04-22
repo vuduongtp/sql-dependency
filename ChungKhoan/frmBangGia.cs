@@ -39,7 +39,7 @@ namespace ChungKhoan
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            OnNewHome = new NewHome(frmBangGia_OnNewHome);//thực hiện hàm..
+            OnNewHome += new NewHome(frmBangGia_OnNewHome);//thực hiện hàm..
             LoadData();
 
         }
@@ -103,5 +103,12 @@ namespace ChungKhoan
             //frmUpdateVatTu vt = new frmUpdateVatTu();
             //vt.Show();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            DateTime dateTime =  DateTime.Now; //Hiển thị thời gian hiện tại
+            txtTime.Text =  String.Format("{0:dd/MM/yyyy  HH:mm:ss}", dateTime);  // "Sunday, March 9, 2008"
+        }
+
     }
 }
