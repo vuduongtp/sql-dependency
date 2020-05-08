@@ -106,9 +106,17 @@ namespace ChungKhoan
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            DateTime dateTime =  DateTime.Now; //Hiển thị thời gian hiện tại
+            DateTime dateTime =  DateTime.Now; //thời gian hiện tại
             txtTime.Text =  String.Format("{0:dd/MM/yyyy  HH:mm:ss}", dateTime);  // "Sunday, March 9, 2008"
         }
 
+        private void btnResetPhienGD_Click(object sender, EventArgs e)
+        {
+            con.Open();
+            SqlCommand command = new SqlCommand("EXEC SP_ResetPhienGD", con);
+            int n = (int)command.ExecuteNonQuery();
+            MessageBox.Show("Đã làm mới phiên giao dịch.", "Làm mới thành công", MessageBoxButtons.OK);
+            con.Close();
+        }
     }
 }
