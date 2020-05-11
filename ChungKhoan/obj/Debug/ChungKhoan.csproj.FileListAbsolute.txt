@@ -51,3 +51,4 @@ E:\Documents\CSharp\ChungKhoan\ChungKhoan\bin\Debug\es\DevExpress.Pdf.v19.1.Core
 E:\Documents\CSharp\ChungKhoan\ChungKhoan\bin\Debug\ja\DevExpress.Pdf.v19.1.Core.resources.dll
 E:\Documents\CSharp\ChungKhoan\ChungKhoan\bin\Debug\ru\DevExpress.Pdf.v19.1.Core.resources.dll
 E:\Documents\CSharp\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.csprojResolveAssemblyReference.cache
+E:\Documents\CSharp\ChungKhoan\ChungKhoan\obj\Debug\ChungKhoan.Form1.resources

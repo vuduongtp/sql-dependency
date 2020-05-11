@@ -100,8 +100,8 @@ namespace ChungKhoan
 
         private void btnDatLenh_Click(object sender, EventArgs e)
         {
-            //frmUpdateVatTu vt = new frmUpdateVatTu();
-            //vt.Show();
+            Form1 vt = new Form1();
+            vt.Show();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
