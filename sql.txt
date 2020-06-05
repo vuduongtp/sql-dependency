@@ -1,0 +1,292 @@
+USE [CHUNGKHOAN]
+GO
+
+/****** Object:  Table [dbo].[GIATRUCTUYEN]    Script Date: 2020-05-11 3:58:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[GIATRUCTUYEN](
+	[MACP] [char](7) NOT NULL,
+	[GIAMUA2] [float] NULL CONSTRAINT [DF_GIATRUCTUYEN_GIAMUA2]  DEFAULT ((0)),
+	[KLMUA2] [int] NULL CONSTRAINT [DF_GIATRUCTUYEN_KLMUA2]  DEFAULT ((0)),
+	[GIAMUA1] [float] NULL CONSTRAINT [DF_GIATRUCTUYEN_GIAMUA1]  DEFAULT ((0)),
+	[KLMUA1] [int] NULL CONSTRAINT [DF_GIATRUCTUYEN_KLMUA1]  DEFAULT ((0)),
+	[GIAKHOP] [float] NULL CONSTRAINT [DF_GIATRUCTUYEN_GIAKHOP]  DEFAULT ((0)),
+	[KLKHOP] [int] NULL CONSTRAINT [DF_GIATRUCTUYEN_KLKHOP]  DEFAULT ((0)),
+	[GIABAN1] [float] NULL CONSTRAINT [DF_GIATRUCTUYEN_GIABAN1]  DEFAULT ((0)),
+	[KLBAN1] [int] NULL CONSTRAINT [DF_GIATRUCTUYEN_KLBAN1]  DEFAULT ((0)),
+	[GIABAN2] [float] NULL CONSTRAINT [DF_GIATRUCTUYEN_GIABAN2]  DEFAULT ((0)),
+	[KLBAN2] [int] NULL CONSTRAINT [DF_GIATRUCTUYEN_KLBAN2]  DEFAULT ((0)),
+ CONSTRAINT [PK_GIATRUCTUYEN] PRIMARY KEY CLUSTERED 
+(
+	[MACP] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[GIATRUCTUYEN]  WITH CHECK ADD  CONSTRAINT [CK_GIATRUCTUYEN] CHECK  (([KLMUA2]>=(0) AND [GIAMUA1]>=(0) AND [KLMUA1]>=(0) AND [GIAKHOP]>=(0) AND [KLKHOP]>=(0) AND [GIABAN1]>=(0) AND [KLBAN1]>=(0) AND [GIABAN2]>=(0) AND [KLBAN2]>=(0) AND [GIAMUA2]>=(0)))
+GO
+
+ALTER TABLE [dbo].[GIATRUCTUYEN] CHECK CONSTRAINT [CK_GIATRUCTUYEN]
+GO
+
+
+USE [CHUNGKHOAN]
+GO
+
+/****** Object:  StoredProcedure [dbo].[CursorGetLenhDat]    Script Date: 2020-05-11 4:00:43 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[CursorGetLenhDat]
+  @OutCrsr CURSOR VARYING OUTPUT, @LoaiGD CHAR, @macp CHAR( 7) 
+AS
+SET DATEFORMAT DMY 
+DECLARE @Ngay as NVARCHAR(10) = (SELECT CONVERT(nvarchar(10), getdate(), 103))--lấy thời điểm hiện tại
+IF (@LoaiGD='M') 
+  SET @OutCrsr=CURSOR KEYSET FOR 
+  SELECT TOP 2 Sum(SOLUONG) as TONGSOLUONG , GIADAT FROM LENHDAT 
+	Where MACP=@macp 
+	AND DAY(NGAYDAT)=DAY(@Ngay) AND MONTH(NGAYDAT)= MONTH(@Ngay) AND YEAR(NGAYDAT)=YEAR(@Ngay)
+	AND LOAIGD='M' and SOLUONG > 0 and TRANGTHAILENH <> N'Huỷ'
+	Group By GiaDat
+    ORDER BY GIADAT DESC
+ELSE
+  SET @OutCrsr=CURSOR KEYSET FOR 
+  SELECT TOP 2 Sum(SOLUONG) as TONGSOLUONG , GIADAT FROM LENHDAT 
+	Where MACP=@macp 
+	AND DAY(NGAYDAT)=DAY(@Ngay) AND MONTH(NGAYDAT)= MONTH(@Ngay) AND YEAR(NGAYDAT)=YEAR(@Ngay)
+	AND LOAIGD='B' and SOLUONG > 0 and TRANGTHAILENH <> N'Huỷ'
+	Group By GiaDat
+    ORDER BY GIADAT ASC
+OPEN @OutCrsr
+GO
+
+
+USE [CHUNGKHOAN]
+GO
+
+/****** Object:  StoredProcedure [dbo].[SP_ResetLenhDat]    Script Date: 2020-05-11 4:01:14 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+--Khi tạo cổ phiếu mới thì tạo luôn nó trong bảng giá để tránh trường hợp cổ phiếu ko tồn tại trong bảng giá
+Create PROC [dbo].[SP_ResetLenhDat]
+AS
+SET DATEFORMAT DMY
+DECLARE @Ngay as NVARCHAR(10) = (SELECT CONVERT(nvarchar(10), getdate(), 103))--lấy thời điểm hiện tại
+UPDATE dbo.LENHDAT SET TRANGTHAILENH=N'Huỷ'
+				  WHERE DATEDIFF(day, @Ngay, NGAYDAT) < 0
+					   and SOLUONG > 0 
+					   and TRANGTHAILENH <> N'Huỷ'
+GO
+
+
+
+USE [CHUNGKHOAN]
+GO
+
+/****** Object:  StoredProcedure [dbo].[SP_ResetPhienGD]    Script Date: 2020-05-11 4:01:30 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+--Khi tạo cổ phiếu mới thì tạo luôn nó trong bảng giá để tránh trường hợp cổ phiếu ko tồn tại trong bảng giá
+CREATE PROC [dbo].[SP_ResetPhienGD]
+AS
+DECLARE @MyCursor CURSOR, @MACP CHAR(7) 
+SET DATEFORMAT DMY 
+DECLARE @Ngay as NVARCHAR(10) = (SELECT CONVERT(nvarchar(10), getdate(), 103))--lấy thời điểm hiện tại
+--Khai bao table de lay lenh khop moi nhat
+DECLARE @LenhKhopMoiNhat TABLE( MACP CHAR(7),
+								SOLUONGKHOP INT,
+								GIAKHOP FLOAT);
+--Huỷ lệnh chưa khớp của hôm qua
+EXEC SP_ResetLenhDat
+--Khai bao cursor de lay danh sach ma co phieu trong bang gia
+SET @MyCursor=CURSOR KEYSET FOR SELECT MACP FROM GIATRUCTUYEN
+OPEN @MyCursor
+FETCH NEXT FROM @MyCursor INTO @MACP
+
+While(@@FETCH_STATUS <> -1)
+BEGIN
+	--UPDATE lenh dat tot nhat vao bang gia
+	EXEC SP_UpdateBangGiaTuLenhDat  'M' , @MACP
+	EXEC SP_UpdateBangGiaTuLenhDat  'B' , @MACP
+
+	--UPDATE lenh khop moi nhat vao bang gia
+	INSERT INTO @LenhKhopMoiNhat SELECT TOP 1 MACP,SOLUONGKHOP,GIAKHOP FROM LENHKHOP,LENHDAT 
+		Where LENHKHOP.IDLENHDAT = LENHDAT.ID and LENHDAT.MACP=@MACP
+		AND DAY(NGAYKHOP)=DAY(@Ngay) AND MONTH(NGAYKHOP)= MONTH(@Ngay) AND YEAR(NGAYKHOP)=YEAR(@Ngay)
+		ORDER BY NGAYKHOP DESC
+	IF EXISTS(SELECT MACP FROM @LenhKhopMoiNhat)
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+						 SET GIAKHOP=(SELECT GIAKHOP FROM @LenhKhopMoiNhat),
+							KLKHOP=(SELECT SOLUONGKHOP FROM @LenhKhopMoiNhat)
+						 WHERE MACP=@MACP
+			DELETE FROM @LenhKhopMoiNhat Where MACP=@MACP
+		END
+	ELSE
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+						 SET GIAKHOP=0,
+							KLKHOP=0
+						 WHERE MACP=@MACP
+		END
+
+	FETCH NEXT FROM @MyCursor  INTO @MACP
+END
+CLOSE @MyCursor
+DEALLOCATE @MyCursor
+GO
+
+
+USE [CHUNGKHOAN]
+GO
+
+/****** Object:  StoredProcedure [dbo].[SP_UpdateBangGiaTuLenhDat]    Script Date: 2020-05-11 4:01:41 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+--Khi tạo cổ phiếu mới thì tạo luôn nó trong bảng giá để tránh trường hợp cổ phiếu ko tồn tại trong bảng giá
+CREATE PROC [dbo].[SP_UpdateBangGiaTuLenhDat] @LoaiGD NCHAR(1),@macp CHAR(7)
+AS
+DECLARE @CrsrVar CURSOR , @soluong INT, @giadat FLOAT
+IF (@LoaiGD='M')
+  EXEC CursorGetLenhDat  @CrsrVar OUTPUT, 'M', @macp
+ELSE 
+  EXEC CursorGetLenhDat  @CrsrVar OUTPUT, 'B', @macp
+
+FETCH NEXT FROM @CrsrVar  INTO @soluong , @giadat
+--Khi cursor tra ve rong
+IF(@@FETCH_STATUS = -1)
+BEGIN
+	If(@LoaiGD='M')
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLMUA1 = 0, GIAMUA1=0,KLMUA2 = 0, GIAMUA2=0
+				 WHERE MACP=@macp
+		END
+	ELSE
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLBAN1 = 0, GIABAN1=0,KLBAN2 = 0, GIABAN2=0
+				 WHERE MACP=@macp
+		END
+END
+--Khi dong 1 co du lieu
+IF(@@FETCH_STATUS <> -1)
+BEGIN
+	If(@LoaiGD='M')
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLMUA1 = @soluong, GIAMUA1=@giadat
+				 WHERE MACP=@macp
+		END
+	ELSE
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLBAN1 = @soluong, GIABAN1=@giadat
+				 WHERE MACP=@macp
+		END
+END
+
+FETCH NEXT FROM @CrsrVar  INTO @soluong , @giadat
+--Khi dong 2 khong co du lieu
+IF(@@FETCH_STATUS = -1)
+BEGIN
+	If(@LoaiGD='M')
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLMUA2 = 0, GIAMUA2=0
+				 WHERE MACP=@macp
+		END
+	ELSE
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLBAN2 = 0, GIABAN2=0
+				 WHERE MACP=@macp
+		END
+END
+--Khi dong 2 co du lieu
+IF(@@FETCH_STATUS <> -1)
+BEGIN
+	If(@LoaiGD='M')
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLMUA2 = @soluong, GIAMUA2=@giadat
+				 WHERE MACP=@macp
+		END
+	ELSE
+		BEGIN
+			UPDATE dbo.GIATRUCTUYEN  
+				 SET KLBAN2 = @soluong, GIABAN2=@giadat
+				 WHERE MACP=@macp
+		END
+END
+CLOSE @CrsrVar
+DEALLOCATE @CrsrVar
+
+GO
+
+
+USE [CHUNGKHOAN]
+GO
+
+/****** Object:  Trigger [dbo].[TR_AfterDelete_LENHDAT]    Script Date: 2020-05-11 4:02:00 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create TRIGGER  [dbo].[TR_AfterDelete_LENHDAT] 
+   ON  [dbo].[LENHDAT] 
+   AFTER DELETE 
+AS 
+BEGIN
+DECLARE @LOAIGD as NCHAR(1) = (SELECT LOAIGD FROM deleted) , @MACP AS CHAR(7) = (SELECT MACP FROM deleted)
+    EXEC SP_UpdateBangGiaTuLenhDat  @LOAIGD, @MACP
+END
+
+GO
+
+
+
+USE [CHUNGKHOAN]
+GO
+/****** Object:  Trigger [dbo].[TR_AfterInsert_LENHDAT]    Script Date: 2020-05-11 4:02:19 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER TRIGGER  [dbo].[TR_AfterInsert_LENHDAT] 
+   ON  [dbo].[LENHDAT] 
+   AFTER INSERT 
+AS 
+BEGIN
+DECLARE @LOAIGD as NCHAR(1) = (SELECT LOAIGD FROM inserted) , @MACP AS CHAR(7) = (SELECT MACP FROM inserted)
+    EXEC SP_UpdateBangGiaTuLenhDat  @LOAIGD, @MACP
+END
