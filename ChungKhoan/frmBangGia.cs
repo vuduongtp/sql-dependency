@@ -16,8 +16,9 @@ namespace ChungKhoan
         public string m_connect = "Data Source=VUDUONG;Initial Catalog =CHUNGKHOAN; User ID =sa; Password=123456";
         public string m_query = "SELECT MACP, GIAMUA2, KLMUA2, GIAMUA1, KLMUA1, GIAKHOP, KLKHOP, GIABAN1, KLBAN1, GIABAN2, KLBAN2 FROM dbo.GIATRUCTUYEN";
         SqlConnection con = null;
+        //delegate dùng để định nghĩa ra một thực thể đại diện cho các hàm(phương thức, hoặc constructor) có cùng một kiểu hàm vd (int, int) -> (int).
         public delegate void NewHome();//giống như con trỏ hàm, ở đây không khai báo parameter thì có thể truyền vào đây hàm void
-        public event NewHome OnNewHome;//su kien thuc hien OnNewHome
+        public event NewHome OnNewHome;//su kien thuc hien OnNewHome, chứa các phương thức, các phương thức này sẽ được thực thi đồng loạt khi sự kiện xẩy ra
 
         public frmBangGia()
         {
@@ -25,7 +26,7 @@ namespace ChungKhoan
             try
             {
                 SqlClientPermission ss = new SqlClientPermission(System.Security.Permissions.PermissionState.Unrestricted);
-                ss.Demand();
+                ss.Demand();//cấp quyen sql client
             }
             catch (Exception)
             {
@@ -39,10 +40,15 @@ namespace ChungKhoan
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            OnNewHome += new NewHome(frmBangGia_OnNewHome);//thực hiện hàm..
+            OnNewHome += new NewHome(frmBangGia_OnNewHome);//Khởi tạo hàm.., đăng ký sự kiện
             LoadData();
 
         }
+
+        //1. Khởi tạo kết nối
+        //2. Khởi tạo SQLDependency
+        //3. Tạo sự kiện lắng nghe sự thay đỏi từ sqlserver
+        //4. Tạo sự kiện cập nhật thay đỏi len UI
 
         private void LoadData()
         {
@@ -56,7 +62,7 @@ namespace ChungKhoan
             cmd.Notification = null;
 
             SqlDependency dependency = new SqlDependency(cmd);
-            dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);
+            dependency.OnChange += new OnChangeEventHandler(dependency_OnChange);//nhận su kiện thay đổi từ sqlserver. Subscribe đến sự kiện SqlDependency.
 
             dt.Load(cmd.ExecuteReader(CommandBehavior.CloseConnection));
             gvBangGia.DataSource = dt;
@@ -64,15 +70,15 @@ namespace ChungKhoan
 
         public void frmBangGia_OnNewHome()
         {
-            //This event will occur on a thread pool thread.
-            //It is illegal to update the UI from a worker thread
-            //The following code checks to see if it is safe update the UI.
+            //Xảy ra khi 1 sự kiện gọi đên nó
+            //Không cho phép cập nhật giao diện từ luông khác
+            //Đoạn mã sau kiểm tra xem nó có an toàn không khi cập nhật UI.
             ISynchronizeInvoke i = (ISynchronizeInvoke)this;
             if (i.InvokeRequired)//trả về true thì phải gọi lại Invoke(Delegate, Object[]), false thì ko cần
             {
-                //Create a delegate to perform the thread switch
+                //Tạo một delegate để thực hiện chuyển đổi luồng
                 NewHome dd = new NewHome(frmBangGia_OnNewHome);
-                //Marshal the data from the worker thread to the UI thread.
+                //Sắp xếp dữ liệu từ luồng dang chạy sang luồng UI.
                 i.BeginInvoke(dd, null);
                 return;
             }
@@ -82,11 +88,11 @@ namespace ChungKhoan
 
         public void dependency_OnChange(object sender, SqlNotificationEventArgs e)
         {
-            SqlDependency dependency = sender as SqlDependency;
-            dependency.OnChange -= dependency_OnChange;
+            SqlDependency dependency = sender as SqlDependency;//lấy đêpncy vừa gửi sự kiện
+            dependency.OnChange -= dependency_OnChange;//bỏ sự kiện vua lay de không bị chồng nhau
             if (OnNewHome != null)
             {
-                OnNewHome();
+                OnNewHome();//truyền sự kiện qua bên khởi tạo
             }
 
         }
@@ -95,6 +101,7 @@ namespace ChungKhoan
 
         private void btnThoat_Click(object sender, EventArgs e)
         {
+            SqlDependency.Stop(m_connect);
             this.Close();
         }
 
@@ -107,7 +114,7 @@ namespace ChungKhoan
         private void timer1_Tick(object sender, EventArgs e)
         {
             DateTime dateTime =  DateTime.Now; //thời gian hiện tại
-            txtTime.Text =  String.Format("{0:dd/MM/yyyy  HH:mm:ss}", dateTime);  // "Sunday, March 9, 2008"
+            txtTime.Text =  String.Format("{0:dd/MM/yyyy  HH:mm:ss}", dateTime);  
         }
 
         private void btnResetPhienGD_Click(object sender, EventArgs e)

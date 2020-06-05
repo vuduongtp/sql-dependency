@@ -63,11 +63,11 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -76,8 +76,8 @@
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -102,7 +102,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(811, 531);
+            this.tabPage1.Size = new System.Drawing.Size(880, 531);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Đặt lệnh mua";
             // 
@@ -113,7 +113,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(4, 4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(803, 100);
+            this.panel2.Size = new System.Drawing.Size(872, 100);
             this.panel2.TabIndex = 3;
             // 
             // label2
@@ -162,7 +162,7 @@
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(803, 523);
+            this.panel1.Size = new System.Drawing.Size(872, 523);
             this.panel1.TabIndex = 2;
             // 
             // txtgia
@@ -496,6 +496,41 @@
             this.tabPage3.Text = "Lệnh Đặt";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.label15);
+            this.panel5.Controls.Add(this.button4);
+            this.panel5.Controls.Add(this.button3);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel5.Location = new System.Drawing.Point(3, 467);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(874, 61);
+            this.panel5.TabIndex = 2;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.Black;
+            this.label15.Location = new System.Drawing.Point(286, 22);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(149, 16);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "LỆNH ĐẶT NGÀY : 123";
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.White;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(769, 13);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(88, 35);
+            this.button4.TabIndex = 3;
+            this.button4.Text = "Hủy lệnh";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
+            // 
             // button3
             // 
             this.button3.BackColor = System.Drawing.Color.White;
@@ -520,41 +555,6 @@
             this.dataGridView1.Size = new System.Drawing.Size(874, 525);
             this.dataGridView1.TabIndex = 0;
             // 
-            // panel5
-            // 
-            this.panel5.Controls.Add(this.label15);
-            this.panel5.Controls.Add(this.button4);
-            this.panel5.Controls.Add(this.button3);
-            this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(3, 467);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(874, 61);
-            this.panel5.TabIndex = 2;
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.White;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(769, 13);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(88, 35);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Hủy lệnh";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.Button4_Click);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(286, 22);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(149, 16);
-            this.label15.TabIndex = 4;
-            this.label15.Text = "LỆNH ĐẶT NGÀY : 123";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
@@ -564,7 +564,7 @@
             this.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
-            this.Text = "Em Ken Stock Exchange";
+            this.Text = "CURSOR - NGUYEN VAN HAU";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -578,9 +578,9 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
